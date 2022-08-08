@@ -1,4 +1,4 @@
-﻿namespace Features.Results;
+﻿namespace Features.Base;
 
 /// <summary>
 /// Extensions to support converting Result to an ActionResult

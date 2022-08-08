@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace Features.Results;
+namespace Features.Base;
 public static class ResultExtensions
 {
     public static T Success<T>(this T result, string message = null) where T : Result

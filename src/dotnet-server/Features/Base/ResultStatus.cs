@@ -1,4 +1,4 @@
-﻿namespace Features.Results;
+﻿namespace Features.Base;
 public enum ResultStatus
 {
     Ok = 200,

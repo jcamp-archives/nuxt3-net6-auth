@@ -1,4 +1,7 @@
-﻿namespace Features.Results;
+﻿namespace Features.Base;
+
+[TsInterface]
+public class BaseResult : Result { }
 
 public class Result
 {

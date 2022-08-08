@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Features.Results;
+namespace Features.Base;
 public class TranslateResultToActionResultAttribute : ActionFilterAttribute
 {
     public override void OnActionExecuted(ActionExecutedContext context)

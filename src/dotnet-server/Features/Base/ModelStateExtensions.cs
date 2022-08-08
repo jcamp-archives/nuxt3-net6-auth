@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace Features.Results;
+namespace Features.Base;
 
 public static class ModelStateExtensions
 {

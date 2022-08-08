@@ -1,4 +1,4 @@
-namespace dotnet_server;
+namespace Vue3Net6Authentication.Models;
 
 public class WeatherForecast
 {
