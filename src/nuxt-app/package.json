@@ -12,7 +12,8 @@
     "preview": "nuxt preview"
   },
   "dependencies": {
-    "date-fns": "^2.23.0"
+    "date-fns": "^2.23.0",
+    "jwt-decode": "^3.1.2"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.25.2",
