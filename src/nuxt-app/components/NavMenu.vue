@@ -66,6 +66,11 @@ const ToggleNavMenu = (): void => {
             Validation
           </nuxt-link>
         </li>
+        <li>
+          <nuxt-link to="/Admin">
+            <span class="i-carbon-data-error mr-3 w-6" /> Admin (No Auth)
+          </nuxt-link>
+        </li>
       </ul>
     </div>
   </div>
