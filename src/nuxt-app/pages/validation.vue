@@ -8,6 +8,8 @@ const model = reactive({
   emailAddress: 'im@nonymous.com',
 } as Person)
 
+onMounted(() => setFocus('name'))
+
 const submitHandler = async (_data: any, node: any) => {
   message = ''
   try {

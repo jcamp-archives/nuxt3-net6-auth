@@ -77,7 +77,6 @@ const submitHandler = async (_data: any, node: any) => {
           <FormKit
             id="password"
             type="password"
-            value="super-secret"
             validation="required"
           />
         </FormKit>
