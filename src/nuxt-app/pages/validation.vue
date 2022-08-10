@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { FormKitNode } from '@formkit/core'
 import type { Person } from '~/models/Person'
 
 let message = $ref('')
@@ -9,7 +8,9 @@ const model = reactive({
   emailAddress: 'im@nonymous.com',
 } as Person)
 
-const submitHandler = async (_data: any, node?: FormKitNode) => {
+onMounted(() => setFocus('name'))
+
+const submitHandler = async (_data: any, node: any) => {
   message = ''
   try {
     const response = await $fetch<any>('/api/person', {
@@ -18,14 +19,7 @@ const submitHandler = async (_data: any, node?: FormKitNode) => {
     })
     message = response.successMessage
   } catch (error: any) {
-    node?.setErrors(error.data.errors, error.data.validationErrors)
-
-    setTimeout(() => {
-      const x = document.getElementsByName(
-        Object.keys(error.data.validationErrors)[0]
-      )[0]
-      if (x) x.focus()
-    }, 200)
+    handleFormError(error, node)
   }
 }
 </script>
@@ -48,20 +42,17 @@ const submitHandler = async (_data: any, node?: FormKitNode) => {
       @submit="submitHandler"
     >
       <FormKit
-        name="name"
-        label="Full Name"
+        id="name"
         type="text"
         validation="required|length:1,50"
       />
       <FormKit
-        name="age"
-        label="Age"
+        id="age"
         type="number"
         validation="required|min:0|max:150"
       />
       <FormKit
-        name="emailAddress"
-        label="Email"
+        id="emailAddress"
         type="email"
         validation="email|required"
       />

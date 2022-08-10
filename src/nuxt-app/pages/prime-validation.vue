@@ -9,6 +9,8 @@ const model = reactive({
   emailAddress: 'im@nonymous.com',
 } as Person)
 
+onMounted(() => setFocus('name'))
+
 const submitHandler = async (_data: any, node?: FormKitNode) => {
   message = ''
   try {
@@ -18,14 +20,7 @@ const submitHandler = async (_data: any, node?: FormKitNode) => {
     })
     message = response.successMessage
   } catch (error: any) {
-    node?.setErrors(error.data.errors, error.data.validationErrors)
-
-    setTimeout(() => {
-      const x = document.getElementsByName(
-        Object.keys(error.data.validationErrors)[0]
-      )[0]
-      if (x) x.focus()
-    }, 200)
+    handleFormError(error, node)
   }
 }
 </script>
@@ -48,20 +43,17 @@ const submitHandler = async (_data: any, node?: FormKitNode) => {
       @submit="submitHandler"
     >
       <FormKit
-        name="name"
-        label="Full Name"
+        id="name"
         type="primeInputText"
         validation="required|length:1,50"
       />
       <FormKit
-        name="age"
-        label="Age"
+        id="age"
         type="primeInputNumber"
         validation="required|min:0|max:150"
       />
       <FormKit
-        name="emailAddress"
-        label="Email"
+        id="emailAddress"
         type="primeInputText"
         validation="email|required"
       />

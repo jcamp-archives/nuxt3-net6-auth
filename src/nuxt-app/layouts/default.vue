@@ -11,6 +11,7 @@
           class="ml-md-auto"
           >About</a
         >
+        <AccountLoginDisplay />
         <DarkToggle />
       </div>
       <div class="flex-grow py-5 pl-8 pr-6">
