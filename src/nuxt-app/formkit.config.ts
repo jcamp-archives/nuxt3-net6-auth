@@ -1,7 +1,18 @@
+import type { FormKitNode } from '@formkit/core'
 import type { DefaultConfigOptions } from '@formkit/vue'
+import * as _ from 'lodash-es'
 import { primeInputs } from '@sfxcode/formkit-primevue'
 
+function autoProps(node: FormKitNode) {
+  if (node.props.id) {
+    node.name = node.props.id
+    if (node.props.label === undefined)
+      node.props.label = _.startCase(node.props.id)
+  }
+}
+
 const config: DefaultConfigOptions = {
+  plugins: [autoProps],
   inputs: primeInputs,
   config: {
     rootClasses(sectionKey, node) {
@@ -10,7 +21,12 @@ const config: DefaultConfigOptions = {
         outer: 'mb-5',
         legend: 'block mb-1 font-bold',
         label() {
-          if (type === 'text' || type === 'number' || type === 'email')
+          if (
+            type === 'text' ||
+            type === 'number' ||
+            type === 'email' ||
+            type === 'password'
+          )
             return 'block mb-1 font-bold'
 
           if (type === 'radio') return 'text-sm text-gray-600 mt-0.5'

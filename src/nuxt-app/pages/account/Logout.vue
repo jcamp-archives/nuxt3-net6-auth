@@ -1,11 +1,13 @@
 <script setup lang="ts">
-const authStore = useAuthStore()
+definePageMeta({
+  // This is an example of inline middleware
+  middleware: (to) => {
+    const authStore = useAuthStore()
+    authStore.logout()
 
-const route = useRoute()
-
-authStore.logout()
-
-const returnUrl = route.query.returnUrl as string
-if (returnUrl) navigateTo(returnUrl)
-else navigateTo('/')
+    const returnUrl = to.query.returnUrl as string
+    if (returnUrl) return navigateTo(returnUrl)
+    return navigateTo('/')
+  },
+})
 </script>

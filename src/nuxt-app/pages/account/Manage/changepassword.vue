@@ -1,46 +1,46 @@
 <script setup lang="ts">
 let message = $ref('')
-const model = reactive({
-  email: '',
-  password: '',
-  confirmPassword: '',
-  returnUrl: '',
-})
-
-onMounted(() => {
-  document.getElementById('email')?.focus()
-})
+let errorMessage = $ref('')
+const model = reactive({ oldPassword: '', password: '', confirmPassword: '' })
 
 const submitHandler = async (_data: any, node: any) => {
   message = ''
+  errorMessage = ''
   try {
-    const response = await $post('/account/register', { body: model })
-    navigateTo('/account/registerconfirmation')
+    const response = await $post('/account/manage/changepassword', {
+      body: model,
+    })
+    message = response.successMessage
   } catch (error: any) {
     handleFormError(error, node)
+    errorMessage = error.data.message
   }
 }
 </script>
 
 <template>
   <div>
-    <h1 class="text-2xl">Register</h1>
+    <h1 class="text-xl">Change Password</h1>
+    <TwAlertSuccess v-if="message">
+      {{ message }}
+    </TwAlertSuccess>
+    <TwAlertDanger v-if="errorMessage">
+      {{ errorMessage }}
+    </TwAlertDanger>
 
-    <TwCard
-      title="Please enter your details"
-      class="mt-8 max-w-lg"
-    >
+    <TwCard class="mt-8 max-w-lg">
       <div class="grid grid-cols-1 gap-6">
         <FormKit
           v-model="model"
           type="form"
           :submit-attrs="{ inputClass: 'btn' }"
+          submit-label="Update Password"
           @submit="submitHandler"
         >
           <FormKit
-            id="email"
-            type="email"
-            validation="required|email"
+            id="oldPassword"
+            type="password"
+            validation="required"
           />
           <FormKit
             id="password"

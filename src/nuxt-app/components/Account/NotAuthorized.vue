@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const authStore = useAuthStore()
 
-const isAuthorized = computed(() => authStore.isAuthenticated)
+const isAuthorized = computed(() => authStore.isAuthenticated())
 </script>
 
 <template>

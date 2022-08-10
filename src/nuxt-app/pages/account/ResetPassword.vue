@@ -1,21 +1,33 @@
 <script setup lang="ts">
+const route = useRoute()
+
 let message = $ref('')
+let errorMessage = $ref('')
+
 const model = reactive({
+  code: '',
   email: '',
   password: '',
   confirmPassword: '',
-  returnUrl: '',
 })
 
 onMounted(() => {
-  document.getElementById('email')?.focus()
+  const email = route.query.email
+  const code = route.query.code
+
+  if (!email || !code) navigateTo('/')
+
+  model.email = email as string
+  model.code = code as string
+
+  document.getElementById('password')?.focus()
 })
 
 const submitHandler = async (_data: any, node: any) => {
   message = ''
   try {
-    const response = await $post('/account/register', { body: model })
-    navigateTo('/account/registerconfirmation')
+    const response = await $post('/account/resetpassword', { body: model })
+    navigateTo('/account/ResetPasswordConfirmation')
   } catch (error: any) {
     handleFormError(error, node)
   }
@@ -24,7 +36,14 @@ const submitHandler = async (_data: any, node: any) => {
 
 <template>
   <div>
-    <h1 class="text-2xl">Register</h1>
+    <h1 class="text-2xl">Reset Password</h1>
+
+    <TwAlertSuccess v-if="message">
+      {{ message }}
+    </TwAlertSuccess>
+    <TwAlertDanger v-if="errorMessage">
+      {{ errorMessage }}
+    </TwAlertDanger>
 
     <TwCard
       title="Please enter your details"
@@ -38,13 +57,9 @@ const submitHandler = async (_data: any, node: any) => {
           @submit="submitHandler"
         >
           <FormKit
-            id="email"
-            type="email"
-            validation="required|email"
-          />
-          <FormKit
             id="password"
             type="password"
+            value="super-secret"
             help="Enter a new password"
             validation="required"
           />

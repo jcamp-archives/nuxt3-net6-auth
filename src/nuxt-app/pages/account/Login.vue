@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { FormKitNode } from '@formkit/core'
 const route = useRoute()
 const authStore = useAuthStore()
 
@@ -13,10 +12,10 @@ const model = reactive({
 
 onMounted(() => {
   returnUrl = route.query.returnUrl as string
-  document.getElementsByName('email')[0]?.focus()
+  document.getElementById('email')?.focus()
 })
 
-const submitHandler = async (_data: any, node?: FormKitNode) => {
+const submitHandler = async (_data: any, node: any) => {
   message = ''
   errorMessage = ''
   try {
@@ -25,6 +24,7 @@ const submitHandler = async (_data: any, node?: FormKitNode) => {
     if (returnUrl) navigateTo(returnUrl)
     else navigateTo('/')
   } catch (error: any) {
+    console.log(error)
     const result = error.data
     if (result.requiresTwoFactor) {
       navigateTo({
@@ -39,14 +39,8 @@ const submitHandler = async (_data: any, node?: FormKitNode) => {
     } else if (result.isLockedOut) {
       navigateTo('/Account/Lockout')
     } else {
-      node?.setErrors(error.data.errors, error.data.validationErrors)
-
-      setTimeout(() => {
-        const x = document.getElementsByName(
-          Object.keys(error.data.validationErrors)[0]
-        )[0]
-        if (x) x.focus()
-      }, 200)
+      errorMessage = error.data.errorMessage
+      handleFormError(error, node)
     }
   }
 }
@@ -76,16 +70,14 @@ const submitHandler = async (_data: any, node?: FormKitNode) => {
           @submit="submitHandler"
         >
           <FormKit
-            name="email"
-            label="Email"
+            id="email"
             type="email"
             validation="required|email"
           />
           <FormKit
+            id="password"
             type="password"
-            name="password"
             value="super-secret"
-            label="Password"
             validation="required"
           />
         </FormKit>

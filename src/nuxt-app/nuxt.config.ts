@@ -21,13 +21,23 @@ export default defineNuxtConfig({
     reactivityTransform: true,
     viteNode: false,
   },
+  autoImports: {
+    // does not work with types at this point
+    // https://github.com/antfu/unplugin-auto-import/issues/61
+    // imports: [
+    //   {
+    //     name: 'FormKitNode',
+    //     from: '@formkit/core',
+    //   },
+    // ],
+  },
   unocss: {
     preflight: false,
   },
   colorMode: {
     classSuffix: '',
   },
-  // ssr: false,
+  ssr: false,
   css: [
     'primevue/resources/themes/saga-blue/theme.css',
     'primevue/resources/primevue.css',

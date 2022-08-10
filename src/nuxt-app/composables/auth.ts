@@ -13,16 +13,6 @@ export const useAuthStore = defineStore('auth', {
     authInfo: null as IAuthInfo | null,
   }),
   getters: {
-    isAuthenticated(): boolean {
-      if (this.authInfo !== null && this.authInfo.accessToken) {
-        // check exp
-        if (new Date() <= (this.authInfo.accessTokenExpiration as Date))
-          return true
-      }
-
-      return false
-    },
-
     userName(): string {
       return this.authInfo?.userName ?? ''
     },
@@ -58,7 +48,7 @@ export const useAuthStore = defineStore('auth', {
         userRoles: role,
         accessTokenExpiration: new Date(decode.exp * 1000),
       }
-      axios.defaults.headers.common.Authorization = `Bearer ${token}`
+      // axios.defaults.headers.common.Authorization = `Bearer ${token}`
     },
 
     clearToken(): void {
@@ -72,8 +62,26 @@ export const useAuthStore = defineStore('auth', {
 
     logout(): void {
       this.clearToken()
-      delete axios.defaults.headers.common.Authorization
+      // delete axios.defaults.headers.common.Authorization
       localStorage.removeItem('token')
+    },
+
+    isAuthenticated(): boolean {
+      if (this.authInfo === null) {
+        const token = localStorage.getItem('token')
+        if (token) {
+          console.log('token in ls')
+          this.updateToken(token)
+        }
+      }
+
+      if (this.authInfo !== null && this.authInfo.accessToken) {
+        // check exp
+        if (new Date() <= (this.authInfo.accessTokenExpiration as Date))
+          return true
+      }
+
+      return false
     },
   },
 })

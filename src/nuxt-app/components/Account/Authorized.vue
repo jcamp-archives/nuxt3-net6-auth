@@ -2,7 +2,7 @@
 const authStore = useAuthStore()
 
 const userName = computed(() => authStore.userName)
-const isAuthorized = computed(() => authStore.isAuthenticated)
+const isAuthorized = computed(() => authStore.isAuthenticated())
 </script>
 
 <template>
