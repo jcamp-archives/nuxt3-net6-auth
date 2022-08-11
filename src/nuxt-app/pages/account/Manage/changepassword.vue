@@ -3,6 +3,8 @@ let message = $ref('')
 let errorMessage = $ref('')
 const model = reactive({ oldPassword: '', password: '', confirmPassword: '' })
 
+onMounted(() => setFocus('oldPassword'))
+
 const submitHandler = async (_data: any, node: any) => {
   message = ''
   errorMessage = ''

@@ -3,6 +3,8 @@ let message = $ref('')
 let errorMessage = $ref('')
 const model = reactive({ email: '' })
 
+onMounted(() => setFocus('email'))
+
 const submitHandler = async (_data: any, node: any) => {
   message = ''
   try {

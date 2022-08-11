@@ -16,6 +16,8 @@ try {
   navigateTo('/account/login')
 }
 
+onMounted(() => setFocus('newEmail'))
+
 const submitHandler = async (_data: any, node: any) => {
   message = ''
   errorMessage = ''

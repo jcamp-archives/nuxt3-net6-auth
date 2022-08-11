@@ -24,7 +24,6 @@ const submitHandler = async (_data: any, node: any) => {
     if (returnUrl) navigateTo(returnUrl)
     else navigateTo('/')
   } catch (error: any) {
-    console.log(error.data)
     const result = error.data
     if (result.requiresTwoFactor) {
       navigateTo({
