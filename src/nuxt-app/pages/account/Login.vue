@@ -12,19 +12,19 @@ const model = reactive({
 
 onMounted(() => {
   returnUrl = route.query.returnUrl as string
-  document.getElementById('email')?.focus()
+  setFocus('email')
 })
 
 const submitHandler = async (_data: any, node: any) => {
   message = ''
   errorMessage = ''
   try {
-    const result = await $post('/account/login', { body: model })
+    const result = await $postBody('/account/login', model)
     authStore.login(result.token)
     if (returnUrl) navigateTo(returnUrl)
     else navigateTo('/')
   } catch (error: any) {
-    console.log(error)
+    console.log(error.data)
     const result = error.data
     if (result.requiresTwoFactor) {
       navigateTo({
@@ -39,8 +39,7 @@ const submitHandler = async (_data: any, node: any) => {
     } else if (result.isLockedOut) {
       navigateTo('/Account/Lockout')
     } else {
-      errorMessage = error.data.errorMessage
-      handleFormError(error, node)
+      errorMessage = handleFormError(error, node)
     }
   }
 }
@@ -50,12 +49,8 @@ const submitHandler = async (_data: any, node: any) => {
   <div>
     <h1 class="text-2xl">Login</h1>
 
-    <TwAlertSuccess v-if="message">
-      {{ message }}
-    </TwAlertSuccess>
-    <TwAlertDanger v-if="errorMessage">
-      {{ errorMessage }}
-    </TwAlertDanger>
+    <TwAlertSuccess>{{ message }}</TwAlertSuccess>
+    <TwAlertDanger>{{ errorMessage }}</TwAlertDanger>
 
     <TwCard
       title="Please enter your details"

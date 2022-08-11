@@ -9,7 +9,7 @@ const model = reactive({
 })
 
 try {
-  const { data } = await useAsyncData(() => $api('/account/manage/userprofile'))
+  const { data } = await useAsyncData(() => $get('/account/manage/userprofile'))
   Object.assign(model, data.value)
   isEmailConfirmed = model.isEmailConfirmed
 } catch {
@@ -43,12 +43,8 @@ const sendVerificationEmail = async () => {
 <template>
   <div>
     <h1 class="text-xl">Manage Email</h1>
-    <TwAlertSuccess v-if="message">
-      {{ message }}
-    </TwAlertSuccess>
-    <TwAlertDanger v-if="errorMessage">
-      {{ errorMessage }}
-    </TwAlertDanger>
+    <TwAlertSuccess>{{ message }}</TwAlertSuccess>
+    <TwAlertDanger>{{ errorMessage }}</TwAlertDanger>
 
     <TwCard class="mt-8 max-w-lg">
       <div class="grid grid-cols-1 gap-6">

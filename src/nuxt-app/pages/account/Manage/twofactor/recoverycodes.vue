@@ -7,9 +7,7 @@ const generateCodes = async () => {
   message = ''
   errorMessage = ''
   try {
-    const response = await $post('/account/manage/mfageneratecodes', {
-      body: {},
-    })
+    const response = await $postBody('/account/manage/mfageneratecodes', {})
     codes = response.recoveryCodes
     message = response.successMessage
   } catch (error: any) {
@@ -21,12 +19,8 @@ const generateCodes = async () => {
 <template>
   <div>
     <h1 class="text-xl">Generate Recovery Codes</h1>
-    <TwAlertSuccess v-if="message">
-      {{ message }}
-    </TwAlertSuccess>
-    <TwAlertDanger v-if="errorMessage">
-      {{ errorMessage }}
-    </TwAlertDanger>
+    <TwAlertSuccess>{{ message }}</TwAlertSuccess>
+    <TwAlertDanger>{{ errorMessage }}</TwAlertDanger>
     <div
       class="alert alert-warning"
       role="alert"

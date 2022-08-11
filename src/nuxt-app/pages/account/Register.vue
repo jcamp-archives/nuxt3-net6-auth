@@ -1,5 +1,5 @@
 <script setup lang="ts">
-let message = $ref('')
+let errorMessage = $ref('')
 const model = reactive({
   email: '',
   password: '',
@@ -7,17 +7,15 @@ const model = reactive({
   returnUrl: '',
 })
 
-onMounted(() => {
-  document.getElementById('email')?.focus()
-})
+onMounted(() => setFocus('email'))
 
 const submitHandler = async (_data: any, node: any) => {
-  message = ''
+  errorMessage = ''
   try {
-    const response = await $post('/account/register', { body: model })
+    const response = await $postBody('/account/register', model)
     navigateTo('/account/registerconfirmation')
   } catch (error: any) {
-    handleFormError(error, node)
+    errorMessage = handleFormError(error, node)
   }
 }
 </script>
@@ -25,6 +23,7 @@ const submitHandler = async (_data: any, node: any) => {
 <template>
   <div>
     <h1 class="text-2xl">Register</h1>
+    <TwAlertDanger>{{ errorMessage }}</TwAlertDanger>
 
     <TwCard
       title="Please enter your details"

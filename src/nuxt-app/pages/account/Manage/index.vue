@@ -8,7 +8,7 @@ const model = reactive({
 })
 
 try {
-  const { data } = await useAsyncData(() => $api('/account/manage/userprofile'))
+  const { data } = await useAsyncData(() => $get('/account/manage/userprofile'))
   Object.assign(model, data.value)
 } catch {
   navigateTo('/account/login')
@@ -18,11 +18,10 @@ const submitHandler = async (_data: any, node: any) => {
   message = ''
   errorMessage = ''
   try {
-    const response = await $post('/account/manage/userprofile', { body: model })
+    const response = await $postBody('/account/manage/userprofile', model)
     message = 'profile updated'
   } catch (error: any) {
-    handleFormError(error, node)
-    errorMessage = error.data.message
+    errorMessage = handleFormError(error, node)
   }
 }
 </script>
@@ -30,12 +29,8 @@ const submitHandler = async (_data: any, node: any) => {
 <template>
   <div>
     <h1 class="text-xl">Profile</h1>
-    <TwAlertSuccess v-if="message">
-      {{ message }}
-    </TwAlertSuccess>
-    <TwAlertDanger v-if="errorMessage">
-      {{ errorMessage }}
-    </TwAlertDanger>
+    <TwAlertSuccess>{{ message }}</TwAlertSuccess>
+    <TwAlertDanger>{{ errorMessage }}</TwAlertDanger>
 
     <TwCard class="mt-8 max-w-lg">
       <div class="grid grid-cols-1 gap-6">

@@ -1,13 +1,9 @@
 <script setup lang="ts">
 import { format } from 'date-fns'
-import type { Forecast } from '../models/Forecast'
+import type { IWeatherForecast } from '~/types'
 
-const { pending, data: forecasts } = await useLazyFetch<Forecast[]>(
-  '/weatherforecast',
-  {
-    initialCache: false,
-    server: false,
-  }
+const { pending, data: forecasts } = await useClientFetch<IWeatherForecast[]>(
+  '/weatherforecast'
 )
 
 const getColor = (temperature: number | undefined): string => {

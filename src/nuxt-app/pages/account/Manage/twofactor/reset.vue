@@ -6,9 +6,7 @@ const resetAuth = async () => {
   message = ''
   errorMessage = ''
   try {
-    const response = await $post('/api/account/manage/mfaresetkey', {
-      body: {},
-    })
+    const response = await $postBody('/api/account/manage/mfaresetkey', {})
     message = response.successMessage
   } catch (error: any) {
     errorMessage = error.data.errorMessage
@@ -19,12 +17,8 @@ const resetAuth = async () => {
 <template>
   <div>
     <h1 class="text-xl">Reset authenticator key</h1>
-    <TwAlertSuccess v-if="message">
-      {{ message }}
-    </TwAlertSuccess>
-    <TwAlertDanger v-if="errorMessage">
-      {{ errorMessage }}
-    </TwAlertDanger>
+    <TwAlertSuccess>{{ message }}</TwAlertSuccess>
+    <TwAlertDanger>{{ errorMessage }}</TwAlertDanger>
     <div
       class="alert alert-warning"
       role="alert"

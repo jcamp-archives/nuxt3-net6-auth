@@ -3,7 +3,7 @@ let body = $ref('')
 
 try {
   const { data } = await useAsyncData(() =>
-    $post('/account/manage/downloadpersonaldata', { body: {} })
+    $postBody('/account/manage/downloadpersonaldata', {})
   )
   body = data.value.jsonData
 } catch {

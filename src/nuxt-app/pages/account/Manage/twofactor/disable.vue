@@ -6,9 +6,7 @@ const disableMfa = async () => {
   message = ''
   errorMessage = ''
   try {
-    const response = await $post('/api/account/manage/mfadisable', {
-      body: {},
-    })
+    const response = await $postBody('/api/account/manage/mfadisable', {})
     message = response.successMessage
   } catch (error: any) {
     errorMessage = error.data.errorMessage
@@ -19,12 +17,8 @@ const disableMfa = async () => {
 <template>
   <div>
     <h1 class="text-xl">Disable multi-factor authentication (MFA)</h1>
-    <TwAlertSuccess v-if="message">
-      {{ message }}
-    </TwAlertSuccess>
-    <TwAlertDanger v-if="errorMessage">
-      {{ errorMessage }}
-    </TwAlertDanger>
+    <TwAlertSuccess>{{ message }}</TwAlertSuccess>
+    <TwAlertDanger>{{ errorMessage }}</TwAlertDanger>
     <div
       class="alert alert-warning"
       role="alert"

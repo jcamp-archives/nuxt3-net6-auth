@@ -9,7 +9,7 @@ const model = reactive({
 const codeModel = reactive({ verificationCode: '' })
 
 try {
-  const { data } = await useAsyncData(() => $api('/account/manage/mfaenable'))
+  const { data } = await useAsyncData(() => $get('/account/manage/mfaenable'))
   Object.assign(model, data.value)
 } catch {
   navigateTo('/account/login')
@@ -21,15 +21,12 @@ const submitHandler = async (_data: any, node: any) => {
   message = ''
   errorMessage = ''
   try {
-    const response = await $post('/account/manage/mfaenable', {
-      body: {
-        verificationCode: codeModel.verificationCode,
-      },
+    const response = await $postBody('/account/manage/mfaenable', {
+      verificationCode: codeModel.verificationCode,
     })
     message = response.successMessage
   } catch (error: any) {
-    errorMessage = error.data.message
-    handleFormError(error, node)
+    errorMessage = handleFormError(error, node)
   }
 }
 </script>
@@ -37,12 +34,8 @@ const submitHandler = async (_data: any, node: any) => {
 <template>
   <div>
     <h1 class="text-xl">Enable multi-factor authentication (MFA)</h1>
-    <TwAlertSuccess v-if="message">
-      {{ message }}
-    </TwAlertSuccess>
-    <TwAlertDanger v-if="errorMessage">
-      {{ errorMessage }}
-    </TwAlertDanger>
+    <TwAlertSuccess>{{ message }}</TwAlertSuccess>
+    <TwAlertDanger>{{ errorMessage }}</TwAlertDanger>
     <div v-if="model.qrCodeBase64">
       <p>To use an authenticator app go through the following steps:</p>
       <ol class="list">

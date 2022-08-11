@@ -9,7 +9,7 @@ const model = reactive({
 })
 
 try {
-  const { data } = await useAsyncData(() => $api('/account/manage/mfainfo'), {
+  const { data } = await useAsyncData(() => $get('/account/manage/mfainfo'), {
     initialCache: false,
     server: false,
   })
@@ -22,9 +22,7 @@ const forgetBrowser = async () => {
   message = ''
   errorMessage = ''
   try {
-    const response = await $post('/api/account/manage/mfaforgetbrowser', {
-      body: {},
-    })
+    const response = await $postBody('/api/account/manage/mfaforgetbrowser', {})
     message = response.successMessage
   } catch (error: any) {
     errorMessage = error.data.errorMessage
@@ -35,12 +33,8 @@ const forgetBrowser = async () => {
 <template>
   <div>
     <h1 class="text-xl">Two Factor Authentication</h1>
-    <TwAlertSuccess v-if="message">
-      {{ message }}
-    </TwAlertSuccess>
-    <TwAlertDanger v-if="errorMessage">
-      {{ errorMessage }}
-    </TwAlertDanger>
+    <TwAlertSuccess>{{ message }}</TwAlertSuccess>
+    <TwAlertDanger>{{ errorMessage }}</TwAlertDanger>
     <div v-if="model.isMfaEnabled">
       <div
         v-if="model.recoveryCodesLeft === 0"

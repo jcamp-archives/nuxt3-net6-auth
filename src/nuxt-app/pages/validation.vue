@@ -1,25 +1,25 @@
 <script setup lang="ts">
-import type { Person } from '~/models/Person'
+import type { IPerson } from '~/types'
 
 let message = $ref('')
+let errorMessage = $ref('')
+
 const model = reactive({
   name: 'Isadora Jarr',
   age: 39,
   emailAddress: 'im@nonymous.com',
-} as Person)
+} as IPerson)
 
 onMounted(() => setFocus('name'))
 
 const submitHandler = async (_data: any, node: any) => {
   message = ''
+  errorMessage = ''
   try {
-    const response = await $fetch<any>('/api/person', {
-      method: 'POST',
-      body: model,
-    })
+    const response = await $postBody('/api/person', model)
     message = response.successMessage
   } catch (error: any) {
-    handleFormError(error, node)
+    errorMessage = handleFormError(error, node)
   }
 }
 </script>
@@ -28,13 +28,8 @@ const submitHandler = async (_data: any, node: any) => {
   <div class="w-50% m-auto text-left">
     <h4>Tailwind Validation Sample</h4>
     <hr class="mb-5" />
-    <div
-      v-if="message"
-      class="alert alert-success"
-      role="alert"
-    >
-      {{ message }}
-    </div>
+    <TwAlertSuccess>{{ message }}</TwAlertSuccess>
+    <TwAlertDanger>{{ errorMessage }}</TwAlertDanger>
     <FormKit
       v-model="model"
       type="form"

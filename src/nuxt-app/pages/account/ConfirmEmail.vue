@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const route = useRoute()
 
-let success = $ref('')
+let message = $ref('')
 let errorMessage = $ref('')
 
 onMounted(async () => {
@@ -13,10 +13,8 @@ onMounted(async () => {
   }
 
   try {
-    const response = await $post('/account/confirmemail', {
-      body: { userId, code },
-    })
-    success = response.successMessage
+    const response = await $postBody('/account/confirmemail', { userId, code })
+    message = response.successMessage
   } catch (error: any) {
     errorMessage = error.data.errorMessage
   }
@@ -26,7 +24,7 @@ onMounted(async () => {
 <template>
   <div>
     <h1 class="text-2xl">Confirm Email</h1>
-    <TwAlertSuccess v-if="success">{{ success }}</TwAlertSuccess>
-    <TwAlertDanger v-if="errorMessage">{{ errorMessage }}</TwAlertDanger>
+    <TwAlertSuccess>{{ message }}</TwAlertSuccess>
+    <TwAlertDanger>{{ errorMessage }}</TwAlertDanger>
   </div>
 </template>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const authStore = useAuthStore()
 
-let success = $ref('')
+let message = $ref('')
 const route = useRoute()
 
 onMounted(async () => {
@@ -13,13 +13,13 @@ onMounted(async () => {
 
   let url = '/account/confirmemailchange'
 
-  if (authStore.isAuthenticated) url = '/account/manage/confirmemailchange'
+  if (authStore.isAuthenticated()) url = '/account/manage/confirmemailchange'
 
   try {
-    const response = await $post(url, { body: { userId, code, email } })
-    if (authStore.isAuthenticated && response.token)
+    const response = await $postBody(url, { userId, code, email })
+    if (authStore.isAuthenticated() && response.token)
       authStore.login(response.token)
-    success = response.data.message
+    message = response.data.message
   } catch {
     navigateTo('/')
   }
@@ -28,7 +28,5 @@ onMounted(async () => {
 
 <template>
   <h1>Confirm Email Change</h1>
-  <TwAlertSuccess v-if="success">
-    {{ success }}
-  </TwAlertSuccess>
+  <TwAlertSuccess>{{ message }}</TwAlertSuccess>
 </template>

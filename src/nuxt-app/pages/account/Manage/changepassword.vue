@@ -7,13 +7,10 @@ const submitHandler = async (_data: any, node: any) => {
   message = ''
   errorMessage = ''
   try {
-    const response = await $post('/account/manage/changepassword', {
-      body: model,
-    })
+    const response = await $postBody('/account/manage/changepassword', model)
     message = response.successMessage
   } catch (error: any) {
-    handleFormError(error, node)
-    errorMessage = error.data.message
+    errorMessage = handleFormError(error, node)
   }
 }
 </script>
@@ -21,12 +18,8 @@ const submitHandler = async (_data: any, node: any) => {
 <template>
   <div>
     <h1 class="text-xl">Change Password</h1>
-    <TwAlertSuccess v-if="message">
-      {{ message }}
-    </TwAlertSuccess>
-    <TwAlertDanger v-if="errorMessage">
-      {{ errorMessage }}
-    </TwAlertDanger>
+    <TwAlertSuccess>{{ message }}</TwAlertSuccess>
+    <TwAlertDanger>{{ errorMessage }}</TwAlertDanger>
 
     <TwCard class="mt-8 max-w-lg">
       <div class="grid grid-cols-1 gap-6">

@@ -20,16 +20,16 @@ onMounted(() => {
   model.email = email as string
   model.code = code as string
 
-  document.getElementById('password')?.focus()
+  setFocus('password')
 })
 
 const submitHandler = async (_data: any, node: any) => {
   message = ''
   try {
-    const response = await $post('/account/resetpassword', { body: model })
+    const response = await $postBody('/account/resetpassword', model)
     navigateTo('/account/ResetPasswordConfirmation')
   } catch (error: any) {
-    handleFormError(error, node)
+    errorMessage = handleFormError(error, node)
   }
 }
 </script>
@@ -38,12 +38,8 @@ const submitHandler = async (_data: any, node: any) => {
   <div>
     <h1 class="text-2xl">Reset Password</h1>
 
-    <TwAlertSuccess v-if="message">
-      {{ message }}
-    </TwAlertSuccess>
-    <TwAlertDanger v-if="errorMessage">
-      {{ errorMessage }}
-    </TwAlertDanger>
+    <TwAlertSuccess>{{ message }}</TwAlertSuccess>
+    <TwAlertDanger>{{ errorMessage }}</TwAlertDanger>
 
     <TwCard
       title="Please enter your details"
