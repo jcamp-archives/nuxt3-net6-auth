@@ -72,7 +72,7 @@ const submitHandler = async (_data: any, node: any) => {
             id="twoFactorCode"
             type="text"
             label="Verification Code"
-            validation="required"
+            :validation="valRules.mfaCode"
           />
           <FormKit
             id="rememberMachine"

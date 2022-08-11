@@ -71,7 +71,8 @@ const submitHandler = async (_data: any, node: any) => {
           <FormKit
             id="password"
             type="password"
-            validation="required"
+            :validation="valRules.password"
+            :validation-messages="valRules.passwordMessages"
           />
         </FormKit>
       </div>
