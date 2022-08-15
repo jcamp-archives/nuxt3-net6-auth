@@ -1,5 +1,5 @@
 import { defineNuxtConfig } from 'nuxt'
-import PROXY_CONFIG from './proxy.conf'
+import PROXY_CONFIG from './aspnetcore-proxy'
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
@@ -11,7 +11,6 @@ export default defineNuxtConfig({
   modules: [
     '@vueuse/nuxt',
     '@nuxtjs/tailwindcss',
-    '@unocss/nuxt',
     '@pinia/nuxt',
     '@nuxtjs/color-mode',
     '@formkit/nuxt',
@@ -19,7 +18,7 @@ export default defineNuxtConfig({
   ],
   experimental: {
     reactivityTransform: true,
-    viteNode: false,
+    // viteNode: false,
   },
   autoImports: {
     // does not work with types at this point
